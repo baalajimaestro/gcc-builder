@@ -162,3 +162,4 @@ sendTG "`Pushing GCC ${TARGET} to `[link](https://github.com/baalajimaestro/arm-
 fi
 git push -f origin $(date +%d%m%y)-9
 fi
+fi
