@@ -1,0 +1,35 @@
+FROM fedora:latest
+
+RUN dnf install -y \
+        git-core \
+        libtool \
+        binutils \
+        shtool \
+        which \
+        hostname \
+        ccache \
+        bc \
+        gnupg \
+        zip \
+        curl \
+        make \
+        m4 \
+        diffutils \
+    && dnf clean all
+
+RUN curl -sLo moreutils.rpm https://rpmfind.net/linux/RPM/fedora/updates/31/x86_64/Packages/m/moreutils-0.63-1.fc31.x86_64.html && rpm -U moreutils.rpm && rm -rf moreutils.rpm
+
+CMD ["/bin/bash"]
+
+RUN echo "maestroci" > /etc/hostname
+
+RUN git clone --global user.name baalajimaestro 
+RUN git clone --global user.email baalajimaestro@pixelexperience.org
+
+RUN mkdir /build
+
+COPY gcc_builder.sh /build
+
+RUN git clone git://gcc.gnu.org/git/gcc.git /build/gcc --depth=1
+
+CMD bash gcc_builder.sh aarch64-maestro-linux-gnu gcc-9 | ts '[%Y-%m-%d %H:%M:%S]'
