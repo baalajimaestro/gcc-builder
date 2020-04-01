@@ -1,0 +1,26 @@
+language: minimal
+
+dist: bionic
+
+services:
+  - docker
+
+jobs:
+  include:
+    - stage: GCC Builder
+      name: "ARM64-GCC-10"     
+      script: 
+        - docker build -f Dockerfile.gcc-10-aarch64 . -t baalajimaestro/ci:latest
+        - docker run -e GH_PERSONAL_TOKEN=${GH_PERSONAL_TOKEN} -e TELEGRAM_TOKEN=${TELEGRAM_TOKEN} baalajimaestro/ci
+    - script:
+        - docker build -f Dockerfile.gcc-9-aarch64 . -t baalajimaestro/ci:latest
+        - docker run -e GH_PERSONAL_TOKEN=${GH_PERSONAL_TOKEN} -e TELEGRAM_TOKEN=${TELEGRAM_TOKEN} baalajimaestro/ci
+      name: "ARM64-GCC-9"        
+    - script:
+        - docker build -f Dockerfile.gcc-10-arm . -t baalajimaestro/ci:latest
+        - docker run -e GH_PERSONAL_TOKEN=${GH_PERSONAL_TOKEN} -e TELEGRAM_TOKEN=${TELEGRAM_TOKEN} baalajimaestro/ci
+      name: "ARM-GCC-10"   
+    - script:
+      - docker build -f Dockerfile.gcc-9-arm . -t baalajimaestro/ci:latest
+      - docker run -e GH_PERSONAL_TOKEN=${GH_PERSONAL_TOKEN} -e TELEGRAM_TOKEN=${TELEGRAM_TOKEN} baalajimaestro/ci
+      name: "ARM-GCC-9"
