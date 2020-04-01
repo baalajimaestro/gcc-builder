@@ -10,17 +10,31 @@ RUN dnf install -y \
         ccache \
         bc \
         gnupg \
+        automake \
+        autoconf \
+        expat \
+        python2 \
+        libipt \
         zip \
-        curl \
-        make \
+        bison \
         gcc-c++ \
+        glibc-devel \
+        glibc-static \
+        libstdc++-static \
+        ncurses-devel \
+        ncurses-compat-libs \
+        file \
+        make \
         m4 \
+        flex-devel \
+        flex \
+        bison-devel \
+        xz \
         texinfo \
+        ca-certificates \
         diffutils \
         moreutils \
     && dnf clean all
-
-CMD ["/bin/bash"]
 
 RUN echo "maestroci" > /etc/hostname
 
