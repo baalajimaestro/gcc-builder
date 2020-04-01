@@ -1,9 +1,9 @@
 echo "**GCC Cross-Compiler Builder**"
 echo "**********MaestroCI***********"
 
-GCC_OUTPUT_PATH=/home/baalajimaestro/gcc-bin
-SRC_PATH=/home/baalajimaestro/src 
-GCC_PATH=/home/baalajimaestro/gcc
+GCC_OUTPUT_PATH=/build/gcc-bin
+SRC_PATH=/build/src 
+GCC_PATH=/build/gcc
 TARGET=aarch64-maestro-linux-gnu
 
 rm -rf $GCC_OUTPUT_PATH && mkdir $GCC_OUTPUT_PATH && cd $GCC_OUTPUT_PATH && rm -rf /tmp/build-*
@@ -73,7 +73,7 @@ cd $SRC_PATH/binutils
 mkdir /tmp/build-binutils && cd /tmp/build-binutils
 $SRC_PATH/binutils/configure --prefix=$GCC_OUTPUT_PATH --target=$TARGET --disable-multilib > /dev/null
 make -j8 &> /dev/null || make -j8
-make install &> /dev/null || make install
+make install-strip &> /dev/null || make install
 
 echo "Building Linux Headers....."
 cd $SRC_PATH/linux
@@ -145,6 +145,6 @@ make install-target-libgcc > /dev/null
 echo "Building GCC Stage-3...."
 cd /tmp/build-glibc
 make -j8 > /dev/null
-make install > /dev/null
+make install-strip > /dev/null
 
 
