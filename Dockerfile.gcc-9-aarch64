@@ -13,6 +13,7 @@ RUN dnf install -y \
         zip \
         curl \
         make \
+        gcc-c++ \
         m4 \
         diffutils \
         moreutils \

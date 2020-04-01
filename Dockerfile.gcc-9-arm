@@ -12,6 +12,7 @@ RUN dnf install -y \
         gnupg \
         zip \
         curl \
+        gcc-c++ \
         make \
         m4 \
         diffutils \
