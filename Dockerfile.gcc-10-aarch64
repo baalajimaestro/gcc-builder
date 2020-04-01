@@ -22,8 +22,8 @@ CMD ["/bin/bash"]
 
 RUN echo "maestroci" > /etc/hostname
 
-RUN git clone --global user.name baalajimaestro 
-RUN git clone --global user.email baalajimaestro@pixelexperience.org
+RUN git config --global user.name baalajimaestro 
+RUN git config --global user.email baalajimaestro@pixelexperience.org
 
 RUN mkdir /build
 
@@ -31,4 +31,4 @@ COPY gcc_builder.sh /build
 
 RUN git clone git://gcc.gnu.org/git/gcc.git /build/gcc --depth=1
 
-CMD bash gcc_builder.sh aarch64-maestro-linux-gnu master | ts '[%Y-%m-%d %H:%M:%S]'
+CMD bash /build/gcc_builder.sh aarch64-maestro-linux-gnu master | ts '[%Y-%m-%d %H:%M:%S]'
