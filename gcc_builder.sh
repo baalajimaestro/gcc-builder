@@ -22,26 +22,6 @@ cd $GCC_PATH
 
 echo "Updating GCC to latest head...."
 
-case $2 in
-
-  master)
-    git checkout master
-    git clean -f
-    rm -rf build*
-    rm -rf build
-    git pull origin master
-    ;;
-  gcc-9)
-    git checkout releases/gcc-9
-    git clean -f 
-    git pull origin releases/gcc-9
-    ;;
-  *)
-    echo "Cant build specified branch!"
-    exit 1
-    ;;
-esac
-
 cd $SRC_PATH 
 echo "Getting Linux Tarball...."
 git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/ -b linux-4.19.y --depth=1

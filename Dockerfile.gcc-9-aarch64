@@ -30,6 +30,6 @@ RUN mkdir /build
 
 COPY gcc_builder.sh /build
 
-RUN git clone git://gcc.gnu.org/git/gcc.git /build/gcc --depth=1
+RUN git clone git://gcc.gnu.org/git/gcc.git -b releases/gcc-9 /build/gcc --depth=1
 
 CMD bash /build/gcc_builder.sh aarch64-maestro-linux-gnu gcc-9 | ts '[%Y-%m-%d %H:%M:%S]'
