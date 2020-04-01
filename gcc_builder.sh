@@ -83,6 +83,8 @@ echo "Building Linux Headers....."
 cd $SRC_PATH/linux
 make ARCH=arm64 INSTALL_HDR_PATH=$GCC_OUTPUT_PATH/$TARGET  headers_install &> /dev/null || make ARCH=arm64 INSTALL_HDR_PATH=$GCC_OUTPUT_PATH/$TARGET  headers_install
 
+while true; do echo "Building Cross-Compiler in Progress....."; sleep 120; done &
+
 echo "Building GCC..."
 mkdir /tmp/build-gcc
 cd /tmp/build-gcc 
@@ -150,6 +152,9 @@ echo "Building GCC Stage-3...."
 cd /tmp/build-glibc
 make -j8 > /dev/null
 make install-strip > /dev/null
+
+jobs
+kill %1
 
 if [[ -n $(${GCC_OUTPUT_PATH}/${TARGET}/bin/${TARGET}-gcc --version) ]]; then 
 cd ${GCC_OUTPUT_PATH}/${TARGET}
