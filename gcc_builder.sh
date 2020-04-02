@@ -43,6 +43,13 @@ curl -sLo isl.tar.xz http://isl.gforge.inria.fr/isl-0.22.1.tar.xz
 
 for f in *.tar*; do tar xf $f; done
 
+cd $GCC_PATH
+
+ln -s $SRC_PATH/gmp-6.2.0 gmp
+ln -s $SRC_PATH/mpc-1.1.0 mpc 
+ln -s $SRC_PATH/mpfr-4.0.2 mpfr 
+ln -s $SRC_PATH/isl-0.22.1 isl 
+
 export PATH=$GCC_OUTPUT_PATH/bin:$PATH
 
 echo "Building Binutils...."
@@ -50,11 +57,11 @@ cd $SRC_PATH/binutils
 mkdir /tmp/build-binutils && cd /tmp/build-binutils
 $SRC_PATH/binutils/configure --prefix=$GCC_OUTPUT_PATH --target=$TARGET --disable-multilib &> /dev/null
 make -j$(nproc) > /dev/null
-make install-strip > /dev/null
+make install > /dev/null
 
 echo "Building Linux Headers....."
 cd $SRC_PATH/linux
-make ARCH=arm64 INSTALL_HDR_PATH=$GCC_OUTPUT_PATH/$TARGET  headers_install &> /dev/null
+make ARCH=arm64 INSTALL_HDR_PATH=$GCC_OUTPUT_PATH/$TARGET  headers_install > /dev/null
 
 while true; do echo "Building Cross-Compiler in Progress....."; sleep 120; done &
 
@@ -88,11 +95,10 @@ $GCC_PATH/configure \
 --enable-graphite=yes \
 --enable-plugins \
 --enable-languages=c \
---prefix=$GCC_OUTPUT_PATH \
---with-gmp=$SRC_PATH/gmp-6.2.0 \
---with-mpfr=$SRC_PATH/mpfr-4.0.2 \
---with-mpc=$SRC_PATH/mpc-1.1.0 \
---with-isl=$SRC_PATH/isl-0.22.1 > /dev/null
+--with-gmp=$GCC_PATH/gmp \
+--with-mpfr=$GCC_PATH/mpfr \
+--with-mpc=$GCC_PATH/mpc \
+--with-isl=$GCC_PATH/isl > /dev/null
 
 echo "Building GCC Step-1...."
 make -j$(nproc) all-gcc > /dev/null
@@ -124,13 +130,13 @@ make install-target-libgcc > /dev/null
 echo "Building GCC Stage-3...."
 cd /tmp/build-glibc
 make -j$(nproc) > /dev/null
-make install-strip > /dev/null
+make install > /dev/null
 
 jobs
 kill %1
 
-if [[ -n $(${GCC_OUTPUT_PATH}/${TARGET}/bin/${TARGET}-gcc --version) ]]; then 
-cd ${GCC_OUTPUT_PATH}/${TARGET}
+if [[ -n $(${GCC_OUTPUT_PATH}/bin/${TARGET}-gcc --version) ]]; then 
+cd ${GCC_OUTPUT_PATH}
 git init
 git add .
 git commit -m "MaestroCI: ${TARGET}-$2 $(date +%d%m%y)" --signoff
