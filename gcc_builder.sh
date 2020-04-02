@@ -154,10 +154,10 @@ else
 git checkout -b $(date +%d%m%y)-9
 if [[ "$1" == "aarch64-maestro-linux-gnu" ]]; then
 git remote add origin https://baalajimaestro:${GH_PERSONAL_TOKEN}@github.com/baalajimaestro/aarch64-maestro-linux-android.git
-sendTG "`Pushing GCC ${TARGET} to `[link](https://github.com/baalajimaestro/aarch64-maestro-linux-android.git)%0A%0A`Branch: $(date +%d%m%y)`"
+sendTG "\`Pushing GCC ${TARGET} to \`[link](https://github.com/baalajimaestro/aarch64-maestro-linux-android.git)%0A%0A\`Branch: $(date +%d%m%y)\`"
 else
 git remote add origin https://baalajimaestro:${GH_PERSONAL_TOKEN}@github.com/baalajimaestro/arm-maestro-linux-gnueabi.git
-sendTG "`Pushing GCC ${TARGET} to `[link](https://github.com/baalajimaestro/arm-maestro-linux-gnueabi.git)%0A%0A`Branch: $(date +%d%m%y)`"
+sendTG "\`Pushing GCC ${TARGET} to \`[link](https://github.com/baalajimaestro/arm-maestro-linux-gnueabi.git)%0A%0A\`Branch: $(date +%d%m%y)\`"
 fi
 git push -f origin $(date +%d%m%y)-9
 fi
